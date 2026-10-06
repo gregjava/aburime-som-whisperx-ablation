@@ -1,0 +1,7 @@
+source_clip,segment_index,start_s,end_s,n_flags,mean_word_count,mean_word_rate,mean_repetition_ratio,trigger
+corpus_10min_01,12,360,390,48,111.0,3.7,0.0183,word_rate
+corpus_10min_02,14,420,450,24,199.0,6.6333,0.0863,word_rate
+corpus_10min_03,6,180,210,24,7.0,0.2333,0.8,repetition
+corpus_15min_01,12,360,390,24,111.0,3.7,0.0183,word_rate
+corpus_5min_02,2,60,90,24,111.0,3.7,0.0183,word_rate
+corpus_5min_05,6,180,210,24,7.0,0.2333,0.8,repetition

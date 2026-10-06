@@ -1,0 +1,31 @@
+{
+    "project_root": "<PATH_TO_PROJECT_ROOT>",
+    "java_exe": "<PATH_TO_JDK_BIN_JAVA>",
+    "fx_module": "<PATH_TO_JAVAFX_SDK_LIB>",
+    "heap": "-Xmx6g",
+    "log_path": "<PATH_TO_APP_LOG>",
+    "clips": {
+        "1min_source": "<PATH_TO_1MIN_SOURCE_WAV>",
+        "5min_source": "<PATH_TO_5MIN_SOURCE_WAV>"
+    },
+    "scratch_dir": "<PATH_TO_SCRATCH_DIR>",
+    "output_dir": "<PATH_TO_OUTPUT_DIR>",
+    "base_config": {
+        "outputFormat": "wav",
+        "model": "large-v2",
+        "language": "en",
+        "maxParallel": 1,
+        "skipSegmentation": false,
+        "checkpointEnabled": true,
+        "retryEnabled": true,
+        "adaptiveEnabled": false,
+        "telemetryEnabled": true,
+        "telemetryCsvFormat": true
+    },
+    "corpus": {
+        "source_dir": "<PATH_TO_SOURCE_RECORDINGS>",
+        "root": "<PATH_TO_CORPUS_ROOT>",
+        "ffmpeg": "<PATH_TO_FFMPEG_EXE>",
+        "pool": ["000", "001", "002", "003", "004", "006", "007", "008", "015", "016", "021", "022", "024", "026", "028"]
+    }
+}

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use these materials, please cite the associated paper."
+authors:
+  - family-names: Aburime
+    given-names: Gregory
+    orcid: <https://orcid.org/0009-0001-6934-2477>
+title: "AburimeSoundManager WhisperX Ablation Study — Reproduction Materials"
+version: 1.0.0
+date-released: 2026-10-06
+url: "https://github.com/<your-username>/aburime-som-whisperx-ablation"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "An Adaptive Fault-Tolerant Framework for Long-Audio Speech Transcription Using WhisperX with Persistent Runtime Estimation and Parallel Processing Optimization"
+  year: 2026
+  journal: Elsevier

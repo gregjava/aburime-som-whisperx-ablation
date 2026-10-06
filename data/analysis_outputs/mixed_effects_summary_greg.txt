@@ -1,0 +1,22 @@
+                            Mixed Linear Model Regression Results
+=============================================================================================
+Model:                          MixedLM             Dependent Variable:             rtf      
+No. Observations:               168                 Method:                         ML       
+No. Groups:                     56                  Scale:                          1.0900   
+Min. group size:                3                   Log-Likelihood:                 -256.0551
+Max. group size:                3                   Converged:                      Yes      
+Mean group size:                3.0                                                          
+---------------------------------------------------------------------------------------------
+                                                   Coef.  Std.Err.   z    P>|z| [0.025 0.975]
+---------------------------------------------------------------------------------------------
+Intercept                                           3.431    0.376  9.128 0.000  2.694  4.167
+C(concurrency_mode)[T.naive]                        0.193    0.382  0.504 0.614 -0.557  0.942
+C(checkpoint)[T.True]                               0.054    0.275  0.196 0.845 -0.484  0.592
+C(retry)[T.True]                                    0.086    0.194  0.441 0.659 -0.295  0.466
+C(concurrency_mode)[T.naive]:C(checkpoint)[T.True] -0.594    0.388 -1.531 0.126 -1.355  0.167
+batch_size                                         -0.034    0.100 -0.338 0.735 -0.229  0.162
+C(concurrency_mode)[T.naive]:batch_size             0.089    0.098  0.904 0.366 -0.104  0.281
+clip_duration_min                                  -0.016    0.032 -0.495 0.620 -0.079  0.047
+clip_duration_min:batch_size                       -0.010    0.012 -0.879 0.379 -0.033  0.013
+Group Var                                           0.164    0.117                           
+=============================================================================================

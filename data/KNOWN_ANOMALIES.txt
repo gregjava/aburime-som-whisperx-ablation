@@ -1,0 +1,122 @@
+SWEEP ANOMALIES AND RESOLUTIONS — v4.0.4 Jupiter
+Date: 2026-10-04 (updated 2026-10-05)
+
+All runs in this dataset are valid (exit=0, success=true) at the time of
+this record. The following issues occurred during data collection and were
+all resolved:
+
+1. License-gate in headless mode (first sweep attempt)
+   - All n5 runs failed in 6-35s with "Batch rejected: 5 files queued..."
+   - Cause: LicenseManager.loadLicense() was only called from MainWindow
+     (GUI path), so isPro=false in headless mode and batch limits defaulted
+     to Free tier (1 file).
+   - Fix: Added LicenseManager.getInstance().loadLicense() to
+     Studio.runHeadless(). Rebuilt JAR.
+   - Resolution: All 72 n5 runs re-executed and passed.
+
+2. Python launcher stub (discovered during re-run)
+   - C:\AI\whisperx_env\python.exe had been replaced with a 1.5 MB binary
+     that exited silently with code 0 for all invocations. Expected size is
+     ~103 KB.
+   - Fix: Restored python.exe and pythonw.exe from
+     python-3.11.9-embed-amd64.zip (official embeddable distribution).
+   - Resolution: WhisperX subprocess works; verified with import test.
+
+3. Power failures during n5 re-run
+   - Six runs failed with exit=1 or exit=2 after 2-6x the expected elapsed
+     time (37,000-52,000s for conditions that should complete in 1,500-10,000s).
+   - Cause: Loss of mains power (solar/battery backup unreliable in
+     deployment location).
+   - Affected: naive_none_n5_t1min_run03, naive_none_n5_t5min_run01,
+     naive_none_n5_t10min_run01, naive_none_n5_t10min_run02,
+     naive_ckpt_n5_t10min_run03, naive_full_n5_t10min_run03,
+     and adaptive_none_n1_t15min_run01 (first attempt; see also §4).
+   - Resolution: Re-ran only the affected runs; the driver's run_exit.json
+     idempotence preserved all completed runs. All affected runs passed on
+     re-run.
+
+4. Error-handling path crash on corrupt audio (first attempt of
+   adaptive_none_n1_t15min_run01)
+   - Hit a ZipFile invalid LOC header error and cascaded to
+     NoClassDefFoundError on FileTimingReport.
+   - Fix: Identified as a classpath gap in v4.0.4 error-handling code.
+     Tracked for v4.0.5.
+   - Resolution: Re-ran the condition; clean on second attempt.
+   
+5. Long-run outliers re-executed (post-merge cleanup)
+   Two GREG-PC n1 runs from the original sweep were re-executed after
+   data analysis flagged them as anomalous:
+     - adaptive_full_n1_t1min_run02: first attempt 1526.6 s
+       (WhisperX 1110 s timeout on a 30-second segment); re-run 243.6 s.
+     - naive_full_n1_t15min_run01: first attempt 29,740.8 s (unexplained
+       slow run; full log no longer available); re-run 2,204.4 s.
+   Both re-runs now sit within their conditions' expected ranges
+   (siblings at 166 s / 451 s and 2,864 s / 2,775 s respectively).
+   Impact: The mixed-effects model's residual scale dropped from 8.86
+   to 1.09 after removing the pre-re-run values from the dataset,
+   confirming these were measurement artifacts rather than framework
+   behaviour. All 207 runs now reflect representative timing.
+
+6. Batch summary displays "Audio duration: 0s" for all runs
+   - The batch_summary.txt file shows 0s for audio duration and
+     0.0 min audio/hour for throughput.
+   - Cause: The batch summary writer reads duration from a variable that is
+     zero at the time the summary is written. Display bug only.
+   - Verified: run_metadata.json correctly records total_audio_duration_s = 60.0
+     for t1min runs. file_timeline.csv has correct per-file duration.
+   - Impact: Cosmetic. Analysis should read durations from run_metadata.json
+     or file_timeline.csv, not from batch_summary.txt.
+   - Tracked for v4.0.5.
+
+7. file_timeline.csv "processing_mode" column always shows ADAPTIVE
+   - The processing_mode field in file_timeline.csv is populated with the
+     static string "ADAPTIVE" for all runs, regardless of the ablation
+     configuration.
+   - Verified: naive_none_n1_t1min, naive_ckpt_n1_t1min,
+     adaptive_none_n1_t1min, and adaptive_full_n1_t1min all show ADAPTIVE
+     in this column, despite having different adaptive_enabled flags.
+   - Impact: Cosmetic. Analysis should use run_metadata.json boolean flags
+     (checkpoint_enabled, retry_enabled, adaptive_enabled) as the authoritative
+     ablation configuration.
+   - Tracked for v4.0.5.
+
+DATA POLICY:
+- A run is successful iff artefacts/run_exit.json reports "success": true.
+- run_status.csv has been deduplicated (one row per run_id, latest attempt).
+- 168 GREG-PC runs and 39 SHALOM runs are all valid (207 total).
+- The batch-size factor (n1 vs n5) is fully studied across both platforms.
+- Authoritative ablation config: run_metadata.json (checkpoint_enabled,
+  retry_enabled, adaptive_enabled).
+- Authoritative per-stage timing: file_timeline.csv, EXCEPT the
+  processing_mode column which is unreliable (see anomaly 7 below).
+- Authoritative audio duration: run_metadata.json total_audio_duration_s.
+- Cross-platform: distinguish by hostname in run_metadata.json
+  (GREG vs DESKTOP-62NFFLU). SHALOM run directories use run_shalom_NN.
+- Analysis pipeline: experiments/analysis.py loads the tree, applies
+  segment-log directory naming <cond_id>_run<NN> (zero-padded), and
+  emits runs.csv, segments.csv, summary_by_condition.csv,
+  cross_platform.csv, mixed_effects_summary_greg.txt, and figures/.
+- Statistical model: MixedLM with condition_id as group; n=3 per
+  condition; residual scale 1.09 after outlier removal.
+- Segment-level data: 6,198 records across all runs; 95.7% success,
+  4.3% empty (concentrated in t10min conditions due to source audio
+  containing silent passages), 0 failed, 0 resumed.
+- RTF convention: RTF = elapsed_s / total_audio_s. Values > 1 mean
+  slower than realtime. This matches the ASR convention.
+
+DATA POLICY ADDENDUM:
+- Segment-level records in segments.csv are deduplicated by
+  (run_id, source_clip, segment_id). The source_clip is derived from
+  file_id by stripping the '_processed_<hex>.wav' suffix; this makes
+  records from multiple executions of the same run collapsible.
+- Preference order for the retained row: real outcome
+  (success/empty/failed) > 'resumed' sentinel; among same-preference
+  rows, latest timestamp wins.
+- The 'resume_event' boolean column preserves progress-check activity
+  as an annotation on the retained row.
+
+KNOWN DISPLAY BUGS (non-blocking):
+- batch_summary.txt reports "Audio duration: 0s" for all runs; the
+  underlying metadata is correct (see anomaly 6).
+- file_timeline.csv processing_mode column is always "ADAPTIVE"
+  regardless of ablation configuration (see anomaly 7).
