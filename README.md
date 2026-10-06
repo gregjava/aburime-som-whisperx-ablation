@@ -12,12 +12,18 @@ Companion materials for the paper:
 - **`data/KNOWN_ANOMALIES.txt`** — Deployment anomaly log referenced in §6.6
 - **`docs/`** — Supplementary manifests
 
-## Full dataset
+## Full Dataset
 
-The complete 207-run sweep tree (168 runs on primary hardware + 39 on alternative hardware) is archived on Zenodo:
+The full experimental sweep that produced every table and figure in this
+repository is archived on Zenodo:
 
-- **DOI:** <zenodo-doi>
+- **DOI:** [10.5281/zenodo.23175556](https://doi.org/10.5281/zenodo.23175556)
 - **Size:** ~4 GB uncompressed, ~4 MB compressed
+
+The archive contains 207 runs (168 on the primary i7-1065G7 host, 39 on the
+secondary i5-4310U host), the full factorial design across 56 conditions,
+and `KNOWN_ANOMALIES.txt` documenting the deployment issues encountered
+during collection.
 
 ## Reproducing the paper's tables
 
