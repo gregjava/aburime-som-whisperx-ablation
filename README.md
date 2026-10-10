@@ -1,5 +1,10 @@
 # AburimeSoundManager WhisperX Ablation Study — Reproduction Materials
 
+> **Note on repository history.** An early commit added a partial transcript
+> from a pilot run of the framework. That file was removed in commit `33c2839`.
+> No current state of the repository contains transcribed speech. See the
+> paper's Data Availability statement for the redistribution policy.
+
 Companion materials for the paper:
 
 > An Adaptive Fault-Tolerant Framework for Long-Audio Speech Transcription Using WhisperX (2026). <DOI>
