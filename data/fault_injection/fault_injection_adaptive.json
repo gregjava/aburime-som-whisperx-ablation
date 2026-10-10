@@ -1,0 +1,20 @@
+﻿{
+    "harness":  "faultinject.ps1 v3",
+    "fault_class":  "F1_kill",
+    "condition":  "adaptive_full_n1_t5min_fi",
+    "run_index":  1,
+    "clip":  "corpus_5min_01",
+    "injection_segment":  6,
+    "injection_epoch_ms":  1791571924105,
+    "restart_epoch_ms":  1791571927006,
+    "end_epoch_ms":  1791572584387,
+    "work_dir":  "C:\\Users\\GREG-PC\\AppData\\Local\\Temp\\segment_work_corpus_5min_01_aa33842d",
+    "segments_at_injection":  6,
+    "restart_required":  true,
+    "recovery_wall_clock_s":  657.38,
+    "run_elapsed_s":  648.26,
+    "run_success":  true,
+    "discovered_output_files":  "corpus_5min_01_1791572580998_49.srt; corpus_5min_01_1791572580998_49.txt; telemetry_1791572581843.csv",
+    "killed_java_pid":  42596,
+    "note":  "Adaptive configuration (checkpoint=true, retry=true, adaptive=true). Post-fault recovery re-processed only the 4 segments remaining after the kill at segment 6 of 10."
+}

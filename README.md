@@ -25,6 +25,14 @@ secondary i5-4310U host), the full factorial design across 56 conditions,
 and `KNOWN_ANOMALIES.txt` documenting the deployment issues encountered
 during collection.
 
+## Fault-injection validation
+
+Companion data for §6.1.1 of the paper is under
+`data/fault_injection/` — two sidecar JSON files documenting the
+recovery-time benefit of the segment-level checkpoint mechanism
+(2.4× ratio between the adaptive and naive configurations). See
+`data/fault_injection/README.md` for details.
+
 ## Reproducing the paper's tables
 
 1. Download the sweep archive from Zenodo and unpack to `experiments/core_sweep/`.
