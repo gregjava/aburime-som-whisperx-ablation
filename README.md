@@ -1,5 +1,7 @@
 # AburimeSoundManager WhisperX Ablation Study — Reproduction Materials
 
+**Associated Zenodo dataset:** [10.5281/zenodo.23175556](https://doi.org/10.5281/zenodo.23175556)
+
 > **Note on repository history.** An early commit added a partial transcript
 > from a pilot run of the framework. That file was removed in commit `33c2839`.
 > No current state of the repository contains transcribed speech. See the
